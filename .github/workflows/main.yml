@@ -27,8 +27,8 @@ jobs:
       - name: Build & push backend Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          context: ./back
-          file: ./back/Dockerfile
+          context: ../../back
+          file: ../../back/Dockerfile
           image: safaeank/smarthopitalback
           tags: latest, ${{ env.TAG }}
           registry: docker.io
@@ -39,8 +39,8 @@ jobs:
       - name: Build & push frontend Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          context: ./front
-          file: ./front/Dockerfile
+          context: ../../front
+          file: ../../front/Dockerfile
           image: safaeank/smarthopitalfront
           tags: latest, ${{ env.TAG }}
           registry: docker.io
