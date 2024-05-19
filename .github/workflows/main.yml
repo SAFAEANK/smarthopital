@@ -1,9 +1,9 @@
-name: Publish Docker image
+name: Publish Docker images
 
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
   workflow_dispatch:
 
 jobs:
@@ -13,20 +13,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - uses: actions/checkout@v3
-        name: Check out code
 
       - name: Store tag in environment file
         run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Build & push Docker image
+      # Build and push backend Docker image
+      - name: Build & push backend Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: safaeank/smarthopital
+          context: ./back
+          file: ./back/Dockerfile
+          image: yourdockerhubusername/backend-app
+          tags: latest, ${{ env.TAG }}
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build and push frontend Docker image
+      - name: Build & push frontend Docker image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          context: ./front
+          file: ./front/Dockerfile
+          image: yourdockerhubusername/frontend-app
+          tags: latest, ${{ env.TAG }}
           registry: docker.io
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
