@@ -31,7 +31,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           #directory: ./back
-          dockerfile: ./back/Dockerfile
+          dockerfile: back/Dockerfile
           image: safaeank/smarthopitalback
           tags: latest, ${{ env.TAG }}
           registry: docker.io
@@ -43,7 +43,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           #directory: ./front
-          dockerfile: ./front/Dockerfile
+          dockerfile: front/Dockerfile
           image: safaeank/smarthopitalfront
           tags: latest, ${{ env.TAG }}
           registry: docker.io
